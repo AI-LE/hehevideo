@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+asdvasd
+<center>
+	<div style="margin-top: 18%">
+		<form action="#" style="border:1">
+			<input type="text" id="account"><br>
+			<input type="text" name="password" id="password"><br>
+			<div style="margin-top: 5pt;">
+				<input type="button" onclick="login()" value="提交">
+				<input type="button" onclick="showTable()" value="添加table">
+				<input type="button" onclick="disTable()" value="消除table"> 
+			</div>
+ 		</form>
+	</div>
+	<div id="tid" style="margin-top: 60pt;">
+	</div>
+</center>
+<script type="text/javascript">
+	function login(){
+		var account = $('#account').val();
+		var password = $('#password').val();
+		$.ajax({
+		    type:"get",  //请求方式
+		    url: "SavaUserServlet",     //请求地址
+		    data: {"account": account, "password": password}, 
+		    cache: false,   //去除缓存
+		    async : false,   //同步
+		    dataType: "JSON",
+		    success: function (data ,textStatus, jqXHR)
+		    {
+		    	//请求成功之后，后台数据赋值给data参数
+				alert("保存成功")
+		    	//viewList(data.d);
+		    },
+		    error:function (XMLHttpRequest, textStatus, errorThrown) {      
+		      	//请求失败之后执行这个
+		    	alert("请求为空或用户已存在");
+		    	/* alert(textStatus);
+		    	alert(errorThrown); */
+		    }
+		 });
+	}
+	
+	function viewList(d){
+		var html = '<table width="100px" height="100px" border="2"> <tr><th>account</th><th>password</th></tr>'
+		
+		for(var i=0;i<d.length;i++){
+			//alert(d[i]['name']);
+			html += '<tr><td>'  + d[i]['account'] + "</td><td>"+d[i]['password']+"</td><tr>";
+		}
+		html+='</table>'
+		$('#tid').empty().append(html);
+	}
+
+	
+	function showTable(){
+		
+		$.ajax({
+		    type:"post",  //请求方式
+		    url: "TestServlett",     //请求地址
+		    data: {}, 
+		    cache: false,   //去除缓存
+		    async : false,   //同步
+		    dataType: "JSON",
+		    success: function (data ,textStatus, jqXHR)
+		    {
+		    	//请求成功之后，后台数据赋值给data参数
+				//alert(data.d)
+		    	viewList(data.d);
+		    },
+		    error:function (XMLHttpRequest, textStatus, errorThrown) {      
+		      	//请求失败之后执行这个
+		    	alert("请求失败了");
+		    	alert(textStatus);
+		    	alert(errorThrown);
+		    }
+		 });
+	}
+	
+	function disTable(){
+		$('#tid').empty().innerHTML ="";
+	}
+</script>
+</body>
+</html>
