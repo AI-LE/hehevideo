@@ -25,6 +25,7 @@ public class VideoDao {
     private int i = 0;
 
     /**
+     *
      * 查找所有视频URL
      * 返回list
      * @return List<String>
@@ -33,6 +34,7 @@ public class VideoDao {
         List list = new ArrayList();
         list.add("demo/video.mp4");
         list.add("demo/videol.mp4");
+        list.add("demo/videoll.mp4");
         return list;
     }
 
